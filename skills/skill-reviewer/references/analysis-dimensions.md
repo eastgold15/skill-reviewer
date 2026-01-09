@@ -1,0 +1,200 @@
+# Three-Layer Analysis Checklist
+
+## L1: Engineering Correctness
+
+### Checklist
+
+```
+L1 Checklist
+├── Tool Calls
+│   ├── [ ] All tool calls return success?
+│   ├── [ ] No "error"/"failed" responses?
+│   ├── [ ] Parameter format correct (valid JSON, path exists)?
+│   └── [ ] No permission issues?
+│
+├── Script Execution
+│   ├── [ ] Shell command exit code = 0?
+│   ├── [ ] No "Permission denied"?
+│   ├── [ ] No "command not found"?
+│   └── [ ] No timeout?
+│
+├── Code Quality
+│   ├── [ ] No Linter errors?
+│   ├── [ ] No syntax errors?
+│   └── [ ] No type errors?
+│
+└── Execution Flow
+    ├── [ ] Execution complete (not terminated unexpectedly)?
+    ├── [ ] No infinite loop (5+ consecutive identical calls)?
+    └── [ ] No timeout interruption?
+```
+
+### Error Keywords
+
+| Keyword | Meaning |
+|---------|---------|
+| "error" | General error |
+| "failed" | Operation failed |
+| "not found" | File/command not found |
+| "denied" | Permission denied |
+| "timeout" | Timeout |
+| "exit code: 1" | Script failed |
+
+### Loop Detection Rules
+
+```
+If N consecutive calls satisfy:
+- Same tool name
+- Similar parameters (>80% similarity)
+- Similar results
+
+Then judged as loop. Thresholds:
+- replace_in_file: 3 times
+- read_file: 3 times
+- grep_search: 5 times
+- Others: 5 times
+```
+
+---
+
+## L2: Goal Achievement
+
+### Checklist
+
+```
+L2 Checklist
+├── Goal Understanding
+│   ├── [ ] Agent correctly understands user intent?
+│   ├── [ ] Selected correct Skill/method?
+│   └── [ ] Correctly defined task scope?
+│
+├── Process Coverage
+│   ├── [ ] All key steps executed?
+│   ├── [ ] No important steps skipped?
+│   └── [ ] Execution order correct?
+│
+├── Output Quality
+│   ├── [ ] Format matches expectation?
+│   ├── [ ] Content complete, no omissions?
+│   ├── [ ] High accuracy?
+│   └── [ ] Good readability?
+│
+└── Tool Behavior (when analyzing Tool)
+    ├── [ ] Parameters used reasonably?
+    ├── [ ] Return values handled correctly?
+    └── [ ] Meets tool design intent?
+```
+
+### Rating Standards
+
+| Level | Condition | Description |
+|-------|-----------|-------------|
+| ✓✓✓ Excellent | 100% goal + excellent quality + extra value | Exceeds expectation |
+| ✓✓ Good | 100% goal + good quality | Meets expectation |
+| ✓ Pass | Core achieved + omissions but usable | Basically usable |
+| ✗ Fail | Core not achieved or unusable | Needs rework |
+
+### Process Comparison Method
+
+```
+1. Extract step list from SKILL.md
+2. Find corresponding execution in trace one by one
+3. Mark status:
+   ✓ Fully executed
+   △ Partially executed
+   ✗ Skipped
+   ? Cannot determine
+```
+
+---
+
+## L3: Optimization Space
+
+### Checklist
+
+```
+L3 Checklist
+├── Efficiency Optimization
+│   ├── [ ] Any redundant calls?
+│   ├── [ ] Steps that can be merged?
+│   ├── [ ] Repeated reads of same file?
+│   └── [ ] Unnecessary wide searches?
+│
+├── Token Optimization
+│   ├── [ ] Read unnecessarily large files?
+│   ├── [ ] Output too verbose?
+│   ├── [ ] Too many intermediate results?
+│   └── [ ] Can use simpler approach?
+│
+├── Tool/Implementation Optimization
+│   ├── [ ] More suitable tool available?
+│   ├── [ ] Parameter definition can be improved?
+│   ├── [ ] Description can be optimized?
+│   └── [ ] Scripts can be simplified?
+│
+└── Agent Optimization (if source available)
+    ├── [ ] System prompt can be improved?
+    ├── [ ] Tool list can be adjusted?
+    └── [ ] Decision logic can be optimized?
+```
+
+### Common Optimization Patterns
+
+| Pattern | Detection | Optimization |
+|---------|----------|-------------|
+| Consecutive grep | grep A; grep B; grep C | grep "A\|B\|C" |
+| Repeated file reads | read f; ...; read f | Cache results |
+| Full file read | read large file | grep first then read |
+| One-by-one processing | Loop tool calls | Batch script |
+
+### Suggestion Categories
+
+```
+Optimization Suggestions
+├── For Skill
+│   ├── SKILL.md description
+│   ├── scripts/ scripts
+│   └── references/ documentation
+│
+├── For Tool
+│   ├── Parameter definition
+│   ├── Description
+│   └── Return format
+│
+└── For Agent
+    ├── System prompt
+    ├── Tool list
+    └── Decision logic
+```
+
+---
+
+## Common Issues Quick Reference
+
+### L1 Common Issues
+
+| Issue | Manifestation | Common Causes |
+|-------|--------------|---------------|
+| Path error | "not found" | Mixed relative/absolute paths |
+| Permission denied | "permission denied" | Sandbox restrictions |
+| Command not found | "command not found" | Environment/dependency issues |
+| Infinite loop | Repeated identical calls | Condition not converging |
+| Invalid parameter | "invalid argument" | JSON format error |
+
+### L2 Common Issues
+
+| Issue | Manifestation | Common Causes |
+|-------|--------------|---------------|
+| Step skipped | Incomplete output | SKILL.md unclear |
+| Format error | Table/chart abnormal | No output examples |
+| Shallow analysis | Only describes phenomena | Analysis method unclear |
+| Goal deviation | Did something but wrong | Intent misunderstanding |
+
+### L3 Common Issues
+
+| Issue | Manifestation | Optimization Direction |
+|-------|--------------|------------------------|
+| Repeated calls | N times same tool | Batch processing |
+| Token waste | Read large file fully | Search first then read |
+| Inefficient tool | grep to find files | Use glob |
+| Verbose output | Too many intermediate results | Simplify output |
