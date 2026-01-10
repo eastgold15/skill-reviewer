@@ -69,13 +69,21 @@ Required                           Optional
 
 **Question: Can it be better?** (Prerequisite: L1 pass + L2 at least pass)
 
-- Any redundant calls?
-- Token usage efficiency?
-- Can implementation be improved?
+**[MUST] Check these dimensions:**
+- **Efficiency**: Redundant calls? Token waste? Repeated reads?
+- **Implementation**: Better tools? Clearer description? Scripts simplifiable?
+- **Conciseness**: Redundant content? Over-explanation? Still clear after simplification?
 
-**Output:** Specific suggestions for Skill/Tool/Agent
+**Output:** Specific suggestions for each dimension checked
+
+**Execution Plan Generation:** When user adopts suggestions, generate actionable execution plan with:
+- Context loading map (L0-L3 progressive loading)
+- Skill best practices checklist
+- Step-by-step execution guidance (imperative tone)
+- Verification checklist
 
 > See `references/analysis-dimensions.md` for details
+> See `references/execution-guide.md` for execution plan generation rules
 
 ## Quick Workflow
 
@@ -88,9 +96,29 @@ Step 3: L1 scan → Report if issues found
         ↓
 Step 4: L2 comparison → Evaluate achievement
         ↓
-Step 5: L3 optimization → Generate suggestions
+Step 5: L3 optimization
+        [MUST] Check all dimensions:
+        - Efficiency (redundant calls, token usage)
+        - Implementation (tool choice, descriptions)
+        - Conciseness (redundancy, over-explanation, clarity)
+        → Generate suggestions for each dimension
         ↓
-Step 6: Output report
+Step 6: Output report (use template with mandatory sections)
+        ↓
+Step 7: (Optional) If user adopts suggestions
+        ↓
+        Generate execution plan with step tracking format
+        ↓
+        Ask: "Ready to execute?"
+        ↓
+        If confirmed → Execute step-by-step:
+        - Before each step: State "Executing Step N: {description}"
+        - After each step: Mark "[DONE] Step N" and verify result
+        - Complete all steps before moving to next
+        ↓
+Step 8: Output completion summary
+        - List all completed steps
+        - Verify against checklist
 ```
 
 **Guide user:**
@@ -122,7 +150,15 @@ Please provide:
 [Achievement status + Rating]
 
 ### L3: Optimization Space 💡
-[Optimization suggestions list]
+
+#### Efficiency
+[Suggestions or "No issues found"]
+
+#### Implementation
+[Suggestions or "No issues found"]
+
+#### Conciseness [MUST]
+[Findings or "Checked, no issues found"]
 
 ### Summary
 [Core issues + Priority improvements]
@@ -138,3 +174,4 @@ Please provide:
 | `references/analysis-dimensions.md` | Three-layer checklist |
 | `references/scenarios.md` | Typical scenario guide |
 | `references/report-templates.md` | Complete report templates |
+| `references/execution-guide.md` | Execution plan generation guide |

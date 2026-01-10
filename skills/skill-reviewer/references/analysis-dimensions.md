@@ -110,6 +110,10 @@ L2 Checklist
 
 ## L3: Optimization Space
 
+**Execution Rule**: All [MUST] dimensions must be checked and reported in output.
+
+### [MUST] Efficiency Optimization
+
 ### Checklist
 
 ```
@@ -147,6 +151,8 @@ L3 Checklist
 | Full file read | read large file | grep first then read |
 | One-by-one processing | Loop tool calls | Batch script |
 
+### [MUST] Tool/Implementation Optimization
+
 ### Suggestion Categories
 
 ```
@@ -166,6 +172,64 @@ Optimization Suggestions
     ├── Tool list
     └── Decision logic
 ```
+
+### [MUST] Conciseness Check
+
+**Principle**: Conciseness serves clarity. Don't sacrifice clarity for brevity.
+
+```
+Conciseness Check
+├── Reference Thresholds (Advisory, not mandatory)
+│   ├── SKILL.md > 150 lines → ⚠️ Consider if simplifiable
+│   ├── Single reference doc > 200 lines → ⚠️ Consider splitting/simplifying
+│   └── Note: Complex features may need more. Don't over-split for numbers.
+│
+├── Redundancy Check (Real issues)
+│   ├── [ ] Duplicate content? → Remove or merge
+│   ├── [ ] Too much explanation, too few templates? → Agent understands concise templates
+│   └── [ ] Too many examples? → 1-2 usually enough
+│
+└── Clarity Preservation (Prerequisite)
+    ├── [ ] Still clear after simplification?
+    ├── [ ] Key information retained?
+    └── [ ] Avoid over-splitting that fragments logic
+```
+
+**When to Flag**:
+- If redundancy found → **Must fix**
+- If exceeds thresholds → ⚠️ **Warning**, check if simplifiable
+- If unclear → **Clarity over brevity**
+
+### [OPTIONAL] Execution Plan Generation (When user adopts suggestions)
+
+When user adopts suggestions, generate execution plan with:
+
+**Required Components:**
+- [ ] Context loading map (L0-L3 progressive loading)
+- [ ] Best practices checklist (modular design, progressive disclosure, etc.)
+- [ ] Step-by-step execution guidance (imperative tone)
+- [ ] Verification checklist (completeness, correctness, standards, functionality)
+
+**Context Loading Map Requirements:**
+- [ ] L0 core context identified (target files to modify)
+- [ ] L1 reference context identified (similar patterns, related files)
+- [ ] L2 pattern context identified (best practice documents)
+- [ ] L3 extended context noted (if needed, external dependencies)
+
+**Best Practices Coverage:**
+- [ ] Modular design principles checked
+- [ ] Progressive disclosure pattern verified
+- [ ] Clear activation conditions ensured
+- [ ] Error handling considered
+- [ ] Documentation synchronization planned
+
+**Execution Guidance Quality:**
+- [ ] Steps are specific (file paths, line numbers, exact locations)
+- [ ] Rationale provided for each step
+- [ ] Examples included where helpful
+- [ ] Tone shifted to imperative (second person)
+
+> See `references/execution-guide.md` for detailed execution plan generation rules
 
 ---
 

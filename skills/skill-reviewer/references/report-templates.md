@@ -121,21 +121,23 @@ Suitable for formal analysis, complete structure.
 
 #### Optimization Suggestions
 
-**1. [{Category}] {Title}**
+**Efficiency**
 
-- **Priority**: High/Medium/Low
-- **Current State**: {Describe current issue}
-- **Suggestion**: {Specific modification suggestion}
-- **Location**: {File path, line number}
-- **Expected Benefit**: {Quantified effect}
+{Suggestions or "No redundancy found"}
 
-**2. [{Category}] {Title}**
+**Implementation**
 
-- **Priority**: High/Medium/Low
-- **Current State**: {Description}
-- **Suggestion**: {Specific modification}
-- **Location**: {File path}
-- **Expected Benefit**: {Effect}
+{Suggestions or "No improvement needed"}
+
+**Conciseness [MUST]**
+
+| Check Item | Status | Notes |
+|-----------|--------|-------|
+| Redundant content | ✓/⚠️ | {Details or "None found"} |
+| Over-explanation (templates vs text) | ✓/⚠️ | {Details or "Appropriate balance"} |
+| Clarity preserved | ✓/⚠️ | {Details or "Clear and concise"} |
+
+**Conciseness Verdict**: {✓ Pass / ⚠️ Warning with suggestions}
 
 ---
 
@@ -159,6 +161,19 @@ Suitable for formal analysis, complete structure.
 - {Whether need re-analysis}
 - {Whether need actual testing verification}
 ```
+
+---
+
+## Execution Plan Template
+
+When user adopts L3 suggestions, generate execution plan.
+
+> See `references/execution-guide.md` for complete execution plan generation guide, including:
+> - Context Loading Map template
+> - Best Practices Checklist
+> - Execution Steps format
+> - Verification Checklist
+> - Complete examples
 
 ---
 
