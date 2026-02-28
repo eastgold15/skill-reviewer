@@ -1,6 +1,6 @@
 ---
 name: skill-reviewer
-description: Review Skill definition quality. Use when user asks to "review skill", "check skill quality", "validate skill", "lint skill", "review my skill", or wants to check if a Skill follows best practices. For execution trace analysis, use when user explicitly mentions "analyze execution", "review trace", or "evaluate execution process".
+description: Review Skill definition quality. Use when user asks to "review skill", "check skill quality", "validate skill", "lint skill", "review my skill", or wants to check if a Skill follows best practices. For execution trace analysis, use when user explicitly mentions "analyze execution", "review trace", or "evaluate execution process". Do NOT use for runtime debugging (use agent-debug skill), code review (use code-review skill), or general file validation.
 version: 0.8.0
 metadata:
   author: vibe-x-ai
@@ -14,7 +14,9 @@ Review Skill definition quality against best practices.
 
 ## Default Mode: Definition Review
 
-**Default behavior**: When user says "review skill", check the **Skill definition quality** (SKILL.md, structure, content).
+**CRITICAL**: When user says "review skill", ALWAYS default to **Definition Review** mode. Only switch to Execution Review when user **explicitly** mentions execution-related keywords.
+
+**Default behavior**: Check the **Skill definition quality** (SKILL.md, structure, content).
 
 **Execution Review**: Only when user **explicitly** mentions:
 - "analyze execution"
@@ -26,6 +28,30 @@ Review Skill definition quality against best practices.
 |------|-------------|-------|
 | **Definition Review** (Default) | "review skill", "check quality", "validate" | Skill folder path |
 | **Execution Review** (Explicit) | "analyze execution", "review trace" | Execution trace + goal |
+
+---
+
+## Example
+
+**User**: "Review my skill at ./my-skill/"
+
+**Actions**:
+1. Read folder structure: `ls -la ./my-skill/`
+2. Check SKILL.md exists and parse YAML frontmatter
+3. Run 20-item checklist (S1-S4, F1-F5, C1-C8, T1-T3)
+4. Generate review report
+
+**Result**:
+```
+# 🔍 Skill Review: my-skill
+| Category | ✅ Pass | ⚠️ Warn | ❌ Fail |
+|----------|---------|---------|--------|
+| Structure | 4 | 0 | 0 |
+| Format | 5 | 0 | 0 |
+| Content | 6 | 2 | 0 |
+| Trigger | 3 | 0 | 0 |
+| **Total** | **18** | **2** | **0** |
+```
 
 ---
 
@@ -224,6 +250,29 @@ Step 7: (Optional) Generate execution plan if user adopts suggestions
 ```
 
 > See `references/report-templates.md` for complete template
+
+---
+
+## Troubleshooting
+
+### Error: "SKILL.md not found"
+**Cause**: File missing or named incorrectly (SKILL.MD, skill.md, etc.)
+**Solution**: Create `SKILL.md` (case-sensitive) in skill folder root
+
+### Error: "YAML parse failed"
+**Cause**: Invalid YAML syntax in frontmatter
+**Solution**: Check for:
+- Missing `---` delimiters
+- Incorrect indentation
+- Unescaped special characters in description
+
+### Error: "name field invalid"
+**Cause**: name contains spaces, capitals, or special characters
+**Solution**: Use kebab-case (e.g., `my-skill-name`)
+
+### Warning: "SKILL.md too long"
+**Cause**: File exceeds 300 lines
+**Solution**: Move detailed content to `references/` folder
 
 ---
 
